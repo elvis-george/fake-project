@@ -1,0 +1,52 @@
+body {
+    background-color: grey;
+}
+
+* {
+    text-decoration: none; 
+}
+
+.entree-mods {
+    display: flex;
+}
+
+.selected-entree {
+    align-items: center;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 5%;
+}
+
+.selected-entree-title {
+    font-size: x-large;
+    margin-bottom: 3%;
+}
+
+.main-panel {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 8%;
+}
+
+.selection-panel {
+    display: flex;
+    flex-direction: row;
+}
+
+.toppings-selection {
+    margin-left: 10%;
+    width: 120%;
+}
+
+.dressings-selection {
+    margin-left: 10%;
+    width: 120%;
+}
+
+.combo-and-submit {
+    display: flex;
+    flex-direction: row;
+}

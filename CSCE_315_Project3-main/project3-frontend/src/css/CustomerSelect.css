@@ -1,0 +1,101 @@
+body {
+    background-color: grey;
+}
+
+* {
+    text-decoration: none;
+}
+
+.customer-select {
+    display: flex;
+}
+
+.not-cart {
+    width: 60%;
+    margin-top: 4%;
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-area {
+    margin-top: 2%;
+    margin-right: 4%;
+}
+
+.cart-title {
+    margin-top: 5%;
+    align-self: center;
+    font-size: xx-large;
+}
+
+.order-total {
+    font-size: large;
+    position: relative;
+    right: 28%;
+    top: -8%;
+}
+
+.submit-button {
+    position: relative;
+    top: -12%;
+    right: -65%;
+    width: 20%;
+    background-color: #FFFAF0;
+}
+
+.page-title {
+    font-size: xx-large;
+}
+
+.meal-buttons {
+    align-self: center;
+    margin-top: 3%;
+    margin-bottom: 3%;
+}
+
+.items {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-self: center;
+    margin-left: 14%;
+}
+
+.item-info {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 70%;
+}
+
+.items-in-cart {
+    display: flex;
+    flex-direction: column;
+}
+
+.entree-options {
+    display: flex;
+}
+
+.proteins {
+    margin-top: 0%;
+    margin-left: 10%;
+}
+
+.toppings {
+    margin-left: 10%;
+}
+
+.dressings {
+    margin-left: 10%;
+}
+
+.not-cart {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+}
+
+.combo-and-submit {
+    margin-top: 3%;
+}

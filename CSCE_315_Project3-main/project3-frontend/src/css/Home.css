@@ -1,0 +1,31 @@
+body {
+    background-color: grey;
+}
+
+.home {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    margin-top: 2%;
+    margin-right: 4%;
+}
+
+.login-button {
+    margin-right: 1%;
+}
+
+.home-main {
+    width: 60%;
+    justify-content: center;
+    margin-left: 18%;
+    margin-top: 7%;
+}
+
+.server-button {
+    margin-right: 5%;
+}
