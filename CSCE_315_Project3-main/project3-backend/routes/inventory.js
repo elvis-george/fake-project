@@ -22,6 +22,16 @@ router.post("/", async (req, res, next) => {
     }
 })
 
+// Restock Report
+router.get("/restock", async (req, res, next) => {
+    try {
+        const restockReport = await Inventory.getRestockReport();
+        return res.status(200).json(restockReport);
+    } catch (err) {
+        next(err);
+    }
+})
+
 // Get inventory item based on inventory id
 router.get("/:inventoryId", async (req, res, next) => {
     try {

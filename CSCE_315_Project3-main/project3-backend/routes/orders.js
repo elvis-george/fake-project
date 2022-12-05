@@ -8,6 +8,7 @@ const router = express.Router();
 // (manager) return order sales report (sales by item in given interval)
 // (manager) what sales together
 
+// Health check for orders route
 router.get("/", async (req, res, next) => {
     try {
         return res.status(200).json({orders: "orders"})
@@ -56,11 +57,11 @@ router.post("/", async(req, res, next) => {
     }
 })
 
-// TODO:
 // Returns most popular pairs of sales (most popular pairs of menu items that were ordered within time frame)
 router.get("/pairs", async (req, res, next) => {
     try {
-        const pairSales = await Orders.fetchPairSales({fromDate: req.body?.fromDate, toDate: req.body?.toDate});
+        console.log(req);
+        const pairSales = await Orders.fetchPopularPairSales({fromDate: req.body?.fromDate, toDate: req.body?.toDate});
         return res.status(200).json(pairSales);
     } catch (err) {
         next(err);

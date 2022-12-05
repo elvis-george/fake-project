@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import Radio from '@mui/material/Radio';
@@ -20,7 +20,6 @@ const EntreeMods = ({ base }) => {
     const [ protein, setProtein ] = useState("");
     const [ toppings, setToppings ] = useState([]);
     const [ dressings, setDressings ] = useState([]);
-    const [ combo, setCombo ] = useState(false);
 
     const changeProtein = (e) => {
         setProtein(e.target.value);
@@ -39,14 +38,6 @@ const EntreeMods = ({ base }) => {
             setDressings([...dressings, e.target.name]);
         } else {
             setDressings(dressings.filter(dressing => dressing !== e.target.name));
-        }
-    };
-
-    const changeCombo = (e) => {
-        if (e.target.checked) {
-            setCombo(true);
-        } else {
-            setCombo(false);
         }
     };
 
@@ -198,9 +189,6 @@ const EntreeMods = ({ base }) => {
                     </div>
                 </div>
                 <div className='combo-and-submit' >
-                    <div className='combo-check' >
-                        <FormControlLabel control={<Checkbox onClick={changeCombo} />} label="Combo" />
-                    </div>
                     <div className='submit-button' >
                         <Link
                             to={{
@@ -208,14 +196,28 @@ const EntreeMods = ({ base }) => {
                             }}
                             state={{
                                 base: from.base,
-                                starter: from.starter,
+                                bases: [...from.bases, {
+                                    base: from.base,
+                                    starters: from.starters,
+                                    protein: protein,
+                                    toppings: toppings.join(', '),
+                                    dressings: dressings.join(', ')
+                                }],
+                                starters: from.starters,
                                 protein: protein,
                                 toppings: toppings,
                                 dressings: dressings,
-                                combo: combo
+                                combo: from.combo,
+                                cartItemsArr: [...from.cartItemsArr, [{
+                                    base: from.base,
+                                    starters: from.starters,
+                                    protein: from.protein,
+                                    toppings: toppings.join(', '),
+                                    dressings: dressings.join(', '),
+                                }]]
                             }}
                         >
-                            <Button sx={{backgroundColor: 'white', width: '120%'}} variant='outlined' margin='normal' >
+                            <Button sx={{backgroundColor: 'transparent', width: '120%'}} variant='outlined' margin='normal' >
                                 Submit
                             </Button>
                         </Link>

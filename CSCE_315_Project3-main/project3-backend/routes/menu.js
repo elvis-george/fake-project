@@ -49,7 +49,8 @@ Usage:
 */
 router.post("/:newItemType", async(req, res, next) => {
     try {
-        const item = await Menu.addItem({addedItem:req.body, itemType: req.params?.newItemType});
+        console.log(req.params);
+        const item = await Menu.addItem({addedItem:req.body?.item, itemType: req.params?.newItemType});
         return res.status(200).json(item);
     } catch (err) {
         next(err)

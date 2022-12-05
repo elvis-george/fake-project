@@ -1,7 +1,3 @@
-body {
-    background-color: grey;
-}
-
 .add-menu-item {
     display: flex;
     flex-direction: column;

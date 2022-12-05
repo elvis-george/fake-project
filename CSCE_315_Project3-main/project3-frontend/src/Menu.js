@@ -39,8 +39,8 @@ const Menu = () => {
                 columns={columns}
                 checkboxSelection
                 onSelectionModelChange={(ids) => {
-                    const selectedRowsData = ids.map((id) => menuItems.data.menu.find((row) => row.id === id));
-                    setSelectedItems(selectedRowsData);      
+                    const selectedRowsData = ids.map((id) => menuItems.data.menu.find((row) => menuItems.data.menu.indexOf(row) === id));
+                    setSelectedItems(selectedRowsData);   
                 }}
             />
         );
@@ -134,7 +134,7 @@ const Menu = () => {
                 </Link>
                 <Button variant='outlined' margin='normal' onClick={removeMenuItems} >Remove Item(s)</Button>
             </div>
-            <div style={{ height: 400, width: '40%' }}>
+            <div style={{ height: 400, width: '60%' }}>
                 {table}
             </div>
         </div>

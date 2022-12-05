@@ -107,6 +107,12 @@ class Inventory {
         return results.rows[0];
     }
 
+    static async getRestockReport() {
+        const results = await pool.query('SELECT ingredient_name FROM inventory WHERE quantity < 25');
+
+        return results.rows;
+    }
+
 }
 
 module.exports = Inventory

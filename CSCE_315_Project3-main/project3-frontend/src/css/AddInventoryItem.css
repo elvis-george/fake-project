@@ -1,7 +1,3 @@
-body {
-    background-color: grey;
-}
-
 .add-inventory-item {
     display: flex;
     flex-direction: column;

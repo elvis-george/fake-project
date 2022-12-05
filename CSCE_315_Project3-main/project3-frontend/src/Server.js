@@ -250,7 +250,7 @@ const Server = () => {
                         backgroundColor: '#FFFAF0'
                     }}
                 >
-                    <label className='cart-title' >Cart</label>
+                    <label className='cart-title-server' >Cart</label>
                     {cartItems}
                 </Card>
                 <label className='order-total' >Order Total: {cost}</label>

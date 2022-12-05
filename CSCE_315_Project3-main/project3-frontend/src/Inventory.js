@@ -25,7 +25,7 @@ const Inventory = () => {
 
     const [ table, setTable ] = useState(null);
     const [ selectedItems, setSelectedItems ] = useState([]);
-    const [ sortBy, setSortBy ] = useState('');
+    const [ sortBy, setSortBy ] = useState('Ingredient Name');
     const [ items, setItems ] = useState({});
     const [ isDescending, setIsDescending ] = useState(false);
 
@@ -161,54 +161,55 @@ const Inventory = () => {
                         />
                     </Tabs>
                 </Box>
-                <div className='inventory-buttons' >
-                    <div className='add-button' >
-                        <Link
-                            to={{
-                            pathname: '/manager/inventory/add'
-                            }}
+            </div>
+            <div className='inventory-buttons' >
+                <div className='add-button' >
+                    <Link
+                        to={{
+                        pathname: '/manager/inventory/add'
+                        }}
+                    >
+                        <Button variant='outlined' margin='normal' >Add Item</Button>
+                    </Link>
+                </div>
+                <div className='edit-button' >
+                    <Link
+                        to={{
+                            pathname: '/manager/inventory/edit'
+                        }}
+                        state={{
+                            selectedItems: selectedItems
+                        }}
+                    >
+                    <Button variant='outlined' margin='normal' onClick={() => {console.log(selectedItems)}} >Edit Item(s)</Button>
+                    </Link>
+                </div>
+                <div className='remove-button' >
+                    <Button variant='outlined' margin='normal' onClick={removeInventoryItems} >Remove Item(s)</Button>
+                </div>
+                <div className='sort-data' >
+                    <FormControl fullWidth>
+                        <InputLabel>Sort By:</InputLabel>
+                        <Select
+                            value={sortBy}
+                            label="Sort By:"
+                            onChange={changeSortBy}
+                            autoWidth
                         >
-                            <Button variant='outlined' margin='normal' >Add Item</Button>
-                        </Link>
-                    </div>
-                    <div className='edit-button' >
-                        <Link
-                            to={{
-                                pathname: '/manager/inventory/edit'
-                            }}
-                            state={{
-                                selectedItems: selectedItems
-                            }}
-                        >
-                        <Button variant='outlined' margin='normal' onClick={() => {console.log(selectedItems)}} >Edit Item(s)</Button>
-                        </Link>
-                    </div>
-                    <div className='remove-button' >
-                        <Button variant='outlined' margin='normal' onClick={removeInventoryItems} >Remove Item(s)</Button>
-                    </div>
-                    <div className='sort-data' >
-                        <FormControl fullWidth>
-                            <InputLabel>Sort By:</InputLabel>
-                            <Select
-                                value={sortBy}
-                                label="Sort By:"
-                                onChange={changeSortBy}
-                            >
-                                <MenuItem value='ID' >ID</MenuItem>
-                                <MenuItem value='Ingredient Name' >Ingredient Name</MenuItem>
-                                <MenuItem value='Quantity' >Quantity</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </div>
-                    <FormControlLabel
-                        control={
-                            <Checkbox onClick={changeIsDescending} name="Descending" />
-                        }
-                        label="Descending"
-                    />
-                    <div className='sort-button' >
-                        <Button variant='outlined' margin='dense' onClick={sortItems} >Sort</Button>
-                    </div>
+                            <MenuItem value='ID' >ID</MenuItem>
+                            <MenuItem value='Ingredient Name' >Ingredient Name</MenuItem>
+                            <MenuItem value='Quantity' >Quantity</MenuItem>
+                        </Select>
+                    </FormControl>
+                </div>
+                <FormControlLabel
+                    control={
+                        <Checkbox onClick={changeIsDescending} name="Descending" />
+                    }
+                    label="Descending"
+                />
+                <div className='sort-button' >
+                    <Button variant='outlined' margin='dense' onClick={sortItems} >Sort</Button>
                 </div>
             </div>
             <div className='table' style={{ height: 400, width: '60%' }}>

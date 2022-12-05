@@ -6,6 +6,10 @@ import { Link } from 'react-router-dom';
 import './css/EditInventoryItem.css';
 import apiClient from './services/apiClient';
 
+/**
+ * This function allows the user to use the frontend to edit a pre-existing inventory item
+ * @returns The updated inventory
+ */
 const EditInventoryItem = () => {
 
     const api = apiClient;

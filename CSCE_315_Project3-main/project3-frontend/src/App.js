@@ -30,12 +30,17 @@ import EditInventoryItem from './EditInventoryItem.js';
 import AddMenuItem from './AddMenuItem.js';
 import EditMenuItem from './EditMenuItem.js';
 import Divider from '@mui/material/Divider';
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from "jwt-decode";
 import './css/App.css'; 
+
+const clientId = '548414080736-sebecd81nkhcn439o0k1mudqlbt52qla.apps.googleusercontent.com';
 
 function App() {
 
     const location = useLocation();
     const [ curPage, setCurPage ] = useState('');
+    const [ user, setUsername ] = useState({});
 
     const changePageTitle = () => {
         if (location.pathname === '/') {
@@ -67,6 +72,28 @@ function App() {
         }
     };
 
+    function handleCallbackResponse(response){
+        var userObject = jwt_decode(response.credential);
+        console.log(userObject);
+        setUsername(userObject);
+    }
+
+    function handleSignOut() {
+        setUsername({});
+    }
+
+    useEffect(() => {
+        if (JSON.parse(localStorage.getItem("user")) !== undefined) {
+            setUsername(JSON.parse(localStorage.getItem("user")));
+        }
+        console.log(user);
+    }, []);
+
+    useEffect(() => {
+        // storing input name
+        localStorage.setItem("user", JSON.stringify(user));
+    }, [user]);
+
     useEffect(() => {
         changePageTitle()
     }, [location]);
@@ -74,7 +101,7 @@ function App() {
     return (
         <div className="App">
             <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="static" style={{ background: '#90ee90' }} >
+                <AppBar position="static" style={{ background: '#3eda00' }} >
                     <Toolbar>
                         <IconButton
                             size="large"
@@ -113,7 +140,23 @@ function App() {
                         <Typography className='page-title' variant="h6" component="div" sx={{ flexGrow: 1 }}>
                             <label className='page-title-text' >{curPage}</label>
                         </Typography>
-                        <Link
+                        {user.name === undefined ? 
+                            <GoogleLogin
+                                onSuccess={handleCallbackResponse}
+                                onError={() => {
+                                console.log('Login Failed');
+                                }}
+                                useOneTap
+                            /> : <label>{user.name}</label>
+                        }
+                        {user.name !== undefined ? 
+                            <Button color='inherit' margin='normal' onClick= {handleSignOut} >
+                                Sign Out
+                            </Button> : null
+                        }
+                        
+
+                        {/* <Link
                             to={{
                                 pathname: '/login'
                             }}
@@ -127,7 +170,7 @@ function App() {
                             }}
                         >
                             <Button color="inherit">Register</Button>
-                        </Link>
+                        </Link> */}
                     </Toolbar>
                 </AppBar>
             </Box>
@@ -155,5 +198,6 @@ function App() {
         </div>
     );
 }
+
 
 export default App;

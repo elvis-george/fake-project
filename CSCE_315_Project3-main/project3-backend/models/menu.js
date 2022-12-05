@@ -3,13 +3,21 @@ const pool = require('../database')
 
 class Menu {
     
-    /* Fetch all Inventory Items */
+    /**
+     * This function fetches all menu items
+     * @returns all menu items
+     */
     static async fetchAll() {
         const results = await pool.query('SELECT name FROM starters UNION ALL SELECT name FROM bases UNION ALL SELECT name FROM proteins');
         return results.rows;
     }
 
-    /* Create new Inventory Item */
+    /**
+     * This function creates a new menu item
+     * @param {*} addedItem is a json object that consists of the required fields - name, quantity, price
+     * @param {*} itemType is a json object that defines which table the new item is added to - protein, base, or starter.
+     * @returns The newly added item.
+     */
     static async addItem({addedItem, itemType}) {
         // Check whether newItem has all required fields
         const requiredFields = ["name", "quantity", "price"];
@@ -19,7 +27,10 @@ class Menu {
             }
         });
 
+        console.log(itemType);
+
         if(itemType === "base"){
+            console.log('am here');
             const results = await pool.query(
                 `INSERT INTO bases (name, quantity, price)
                 VALUES     ($1, $2, $3)
@@ -57,7 +68,12 @@ class Menu {
         throw new BadRequestError("Error: Invalid item type");
     }
 
-    /* Edit Inventory Item */
+    /**
+     * This function allows the user to edit a pre-existing menu item
+     * @param {*} updatedItem is a json object that contains all the updated information about a pre-existing item in the menu
+     * @param {*} itemType is a json object that defines the type of the item, whether it is a base, protein, or starter.
+     * @returns the updated item
+     */
     static async editItem({updatedItem, itemType}) {
         if (!itemType) {
             throw new BadRequestError("No itemType provided");
@@ -67,7 +83,7 @@ class Menu {
         const requiredFields = ["id", "name", "quantity", "price"];
         requiredFields.forEach((field) => {
             if (!updatedItem?.hasOwnProperty(field)) {
-                throw new BadRequestError('Missing required field - ${field} - in request body');
+                throw new BadRequestError(`Missing required field - ${field} - in request body`);
             }
         });
 
@@ -121,7 +137,11 @@ class Menu {
         throw new BadRequestError("Error: Invalid item type");
     }
 
-    /* Delete Inventory Item */
+    /**
+     * This function helps the user delete a menu item
+     * @param {*} itemTypeId is a json object that consists information about the type of the menu item and the id separated by a '-'
+     * @returns the deleted item
+     */
     static async deleteItem(itemTypeId) {
         if (!itemTypeId) {
             throw new BadRequestError("No itemTypeId provided");
@@ -143,6 +163,11 @@ class Menu {
     }
 
     /* Get Inventory Item */
+    /**
+     * This function displays all the menu items of a specific type or a specific menu item depending on what the user asks.
+     * @param {*} itemTypeId consists of the type of the menu item (base, protein, starter) and the id of the menu item.
+     * @returns either all the items of a specific type, or a specific item defined by type and id.
+     */
     static async fetchItemById(itemTypeId) {
         if (!itemTypeId) {
             throw new BadRequestError("No itemTypeId provided");
@@ -178,7 +203,11 @@ class Menu {
         }
         throw new BadRequestError("Invalid type-id");
     }
-    /* Fetch prices for starters and bases */
+    
+    /**
+     * This function displays the menu item name and price respectively
+     * @returns all the menu items and their respective prices
+     */
     static async fetchAllPrices() {
 
         const results = await pool.query(`SELECT name, price FROM starters UNION ALL SELECT name, price FROM bases`);

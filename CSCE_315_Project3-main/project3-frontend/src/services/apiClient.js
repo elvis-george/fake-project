@@ -144,6 +144,10 @@ class ApiClient {
     async popularPairs(fromDate, toDate) {
         return await this.request({endpoint: `orders/pairs`, method: `GET`, data: {fromDate, toDate}});
     }
+
+    async restockReport() {
+        return await this.request({endpoint: `inventory/restock`, method: `GET`});
+    }
 }
 
 export default new ApiClient(API_BASE_URL);

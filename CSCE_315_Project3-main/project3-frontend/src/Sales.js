@@ -31,7 +31,7 @@ export default function Sales() {
     );
     const [ startDate, setStartDate ] = useState('');
     const [ endDate, setEndDate ] = useState('');
-    const [ sortBy, setSortBy ] = useState('');
+    const [ sortBy, setSortBy ] = useState('Name');
     const [ items, SetItems ] = useState({});
     const [ isDescending, setIsDescending ] = useState(false);
 
@@ -149,35 +149,36 @@ export default function Sales() {
                         />
                     </Tabs>
                 </Box>
-                <div className='sales-buttons' >
-                    <TextField sx={{marginRight: '4%'}} id='start-date-entry' label='Enter Starting Date' placeholder='YYYY-MM-DD' variant='outlined' margin='normal' defaultValue='2022-11-06' onChange={changeStartDate }  />
-                    <TextField  sx={{marginRight: '4%'}} id='end-date-entry' label='Enter Ending Date' placeholder='YYYY-MM-DD' variant='outlined' margin='normal' defaultValue='2022-11-07' onChange={changeEndDate} />
-                    <Button sx={{alignSelf: 'center'}} variant='outlined' margin='normal' onClick={fetchSalesReport} >Submit</Button>
-                    <div className='sort-data' >
-                        <FormControl fullWidth>
-                            <InputLabel>Sort By:</InputLabel>
-                            <Select
-                                value={sortBy}
-                                label="Sort By:"
-                                onChange={changeSortBy}
-                            >
-                                <MenuItem value='Name' >Name</MenuItem>
-                                <MenuItem value='Count' >Count</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </div>
-                    <FormControlLabel
-                        control={
-                            <Checkbox onClick={changeIsDescending} name="Descending" />
-                        }
-                        label="Descending"
-                    />
-                    <div className='sort-button' >
-                        <Button variant='outlined' margin='dense' onClick={sortItems} >Sort</Button>
-                    </div>
+            </div>
+            <div className='sales-buttons' >
+                <TextField sx={{marginRight: '4%'}} id='start-date-entry' label='Enter Starting Date' placeholder='YYYY-MM-DD' variant='outlined' margin='normal' onChange={changeStartDate }  />
+                <TextField  sx={{marginRight: '4%'}} id='end-date-entry' label='Enter Ending Date' placeholder='YYYY-MM-DD' variant='outlined' margin='normal' onChange={changeEndDate} />
+                <Button sx={{alignSelf: 'center'}} variant='outlined' margin='normal' onClick={fetchSalesReport} >Submit</Button>
+                <div className='sort-data' >
+                    <FormControl fullWidth>
+                        <InputLabel>Sort By:</InputLabel>
+                        <Select
+                            value={sortBy}
+                            label="Sort By:"
+                            onChange={changeSortBy}
+                            autoWidth
+                        >
+                            <MenuItem value='Name' >Name</MenuItem>
+                            <MenuItem value='Count' >Count</MenuItem>
+                        </Select>
+                    </FormControl>
+                </div>
+                <FormControlLabel
+                    control={
+                        <Checkbox onClick={changeIsDescending} name="Descending" />
+                    }
+                    label="Descending"
+                />
+                <div className='sort-button' >
+                    <Button variant='outlined' margin='dense' onClick={sortItems} >Sort</Button>
                 </div>
             </div>
-            <div style={{ height: 400, width: '60%' }}>
+            <div style={{ height: 400, width: '60%', marginTop: '2%' }}>
                 {table}
             </div>
         </div>

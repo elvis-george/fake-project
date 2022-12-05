@@ -5,6 +5,10 @@ import Button from '@mui/material/Button';
 import apiClient from './services/apiClient';
 import './css/AddMenuItem.css';
 
+/**
+ * This function allows the user to add an item to the Menu using the frontend.
+ * @returns the updated menu to the frontend
+ */
 const AddMenuItem = () => {
     
     const api = apiClient; // apiClient is a singleton

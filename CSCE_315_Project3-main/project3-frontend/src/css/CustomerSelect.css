@@ -1,7 +1,3 @@
-body {
-    background-color: grey;
-}
-
 * {
     text-decoration: none;
 }
@@ -23,7 +19,7 @@ body {
 }
 
 .cart-title {
-    margin-top: 5%;
+    margin-left: 25%;
     align-self: center;
     font-size: xx-large;
 }
@@ -40,7 +36,6 @@ body {
     top: -12%;
     right: -65%;
     width: 20%;
-    background-color: #FFFAF0;
 }
 
 .page-title {
@@ -53,12 +48,18 @@ body {
     margin-bottom: 3%;
 }
 
+.items-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+}
+
 .items {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    align-self: center;
-    margin-left: 14%;
+    margin-left: 13%;
 }
 
 .item-info {
@@ -77,19 +78,6 @@ body {
     display: flex;
 }
 
-.proteins {
-    margin-top: 0%;
-    margin-left: 10%;
-}
-
-.toppings {
-    margin-left: 10%;
-}
-
-.dressings {
-    margin-left: 10%;
-}
-
 .not-cart {
     display: flex;
     flex-direction: column;
@@ -98,4 +86,39 @@ body {
 
 .combo-and-submit {
     margin-top: 3%;
+}
+
+.cart-items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cart-top {
+    display: flex;
+    align-self: center;
+    align-items: center;
+    margin-top: 5%;
+}
+
+.cart-top > * {
+    margin-right: 80%;
+}
+
+.combo-check {
+    margin-top: 8%;
+}
+
+.cart-pagination {
+    margin-top: 2%;
+}
+
+.cart-item-with-delete {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.cart-item-with-delete > * {
+    margin-right: 4%;
 }

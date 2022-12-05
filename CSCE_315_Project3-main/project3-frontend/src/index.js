@@ -4,12 +4,15 @@ import './css/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <Router>
-            <App />
+            <GoogleOAuthProvider clientId='548414080736-sebecd81nkhcn439o0k1mudqlbt52qla.apps.googleusercontent.com' >
+                <App />
+            </GoogleOAuthProvider>
         </Router>     
     </React.StrictMode>
 );

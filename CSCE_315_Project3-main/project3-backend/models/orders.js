@@ -2,7 +2,13 @@ const pool = require('../database');
 const { BadRequestError } = require('../utils/errors');
 
 class Orders {
-
+    
+    /**
+     * This function generates the Sales Report
+     * @param {*} fromDate stores the date at which the sales report should start
+     * @param {*} toDate stores the date at which the sales report should end
+     * @returns All the sales made between fromDate and toDate
+     */
     static async fetchSalesReport({fromDate, toDate}) {
         if (!fromDate || !toDate) {
             throw new BadRequestError("No fromDate or toDate provided");
@@ -44,6 +50,11 @@ class Orders {
         return results.rows;
     }
 
+    /**
+     * This function creates a new order with default values and calls the addItem() function to populate the order table and the item table
+     * @param {*} addedOrder consists of the default information about a new order
+     * @returns The newly added order
+     */
     static async addOrder({addedOrder}) {
         const currDate = new Date();
         const month = currDate.getMonth() + 1;
@@ -70,9 +81,13 @@ class Orders {
 
         return update.rows[0];
     }
-
+    /**
+     * This function is called withing the addedOrder() function to populate the items table and then the order with the menu items that have been ordered
+     * @param {*} item contains information about the menu item that was ordered
+     * @param {*} newOrderId contains the id of the order to which the item is linked
+     * @returns 
+     */
     static async addItem(item, newOrderId){
-        // TODO: remove item dependencies from inventory
         if(item.baseId){
             let basePrice = await pool.query('SELECT id,price FROM bases WHERE id=$1', [item.baseId]);
             let price = basePrice.rows[0].price; 
@@ -103,13 +118,38 @@ class Orders {
         }
         
     }
-
+    /**
+     * This function generates the 'What Sales Together Report' 
+     * @param {*} fromDate stores the date at which the 'What Sales together Report' should start
+     * @param {*} toDate stores the date at which the 'What Sales together Report' should end
+     * @returns Pairs of menu items that are most popular among the customers
+     */
     static async fetchPopularPairSales({fromDate, toDate}) {
         if (!fromDate || !toDate) {
             throw new BadRequestError("No fromDate or toDate provided");
         }
 
-        //TODO
+        const results = await pool.query(
+            `SELECT t1.itemType AS type1, t1.itemId AS item1, t2.itemType AS type2, t2.itemId AS item2, count(*) 
+            FROM (SELECT items.id, unnest(array['base','protein','starter']) as itemType, unnest(array[base_id,protein_id,starter_id]) as itemId, orders.order_date, items.order_id FROM items, orders 
+            WHERE orders.id=items.order_id 
+            AND orders.order_date BETWEEN $1 AND $2  
+            ORDER BY id) 
+            AS t1 
+
+            JOIN (SELECT items.id, unnest(array['base','protein','starter']) as itemType, unnest(array[base_id,protein_id,starter_id]) as itemId, orders.order_date, items.order_id 
+            FROM items, orders 
+            WHERE orders.id=items.order_id AND orders.order_date BETWEEN $1 AND $2  
+            ORDER BY id) 
+            AS t2 
+
+            ON t1.order_id=t2.order_id AND t1.itemId < t2.itemId AND t1.itemType != t2.itemType 
+            GROUP BY t1.itemId, t2.itemId, t1.itemType, t2.itemType 
+            ORDER BY count(*) DESC;`, [fromDate, toDate]
+        );
+
+        return results.rows[0];
+
     }
 
     
