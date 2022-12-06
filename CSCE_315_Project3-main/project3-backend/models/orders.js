@@ -55,7 +55,7 @@ class Orders {
      * @param {*} addedOrder consists of the default information about a new order
      * @returns The newly added order
      */
-    static async addOrder({addedOrder}) {
+    static async addOrder({employeeId, items}) {
         const currDate = new Date();
         const month = currDate.getMonth() + 1;
         const date = currDate.getFullYear() + "-" + month + "-" + currDate.getDate();
@@ -65,14 +65,16 @@ class Orders {
             `INSERT INTO orders (order_date, order_time, employee_id)
             VALUES     ($1, $2, $3)
             RETURNING   *
-            `, [date, time, addedOrder.employeeId]
+            `, [date, time, employeeId]
         ); 
         const newOrderId = results.rows[0].id;
         
-        const numItems = addedOrder.items.length;
+        const numItems = items.length;
         let totalCost = 0;
         for(let i = 0; i < numItems; i++){
-            totalCost += await this.addItem(addedOrder.items[i], newOrderId);
+            if(items[i].starterId != 0){
+                totalCost += await this.addItem(items[i], newOrderId);
+            }
         }
         totalCost = totalCost.toFixed(2);
         const update = await pool.query(
