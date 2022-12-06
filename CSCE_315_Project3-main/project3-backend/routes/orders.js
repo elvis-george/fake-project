@@ -48,8 +48,11 @@ router.get("/sales", async (req, res, next) => {
 //     ]
 // }
 router.post("/", async(req, res, next) => {
+    // console.log('body' + req.body);
+    console.log('routes: ' + req.body?.employeeId);
     try {
-        const item = await Orders.addOrder({addedOrder:req.body?.orderPlaced});
+        const item = await Orders.addOrder({employeeId: req.body?.employeeId, items: req.body?.items });
+        // const item = await Orders.addOrder({addedOrder: req.body?.addedOrder });
         return res.status(200).json(item);
     } 
     catch (err) {
