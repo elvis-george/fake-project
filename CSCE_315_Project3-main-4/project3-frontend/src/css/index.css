@@ -1,0 +1,48 @@
+body {
+  background-color: beige;
+  background-repeat: no-repeat;
+  zoom: 100%;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  /* background-image:    url(/Users/brodude/Documents/Local_Github_byElvis/CSCE_315_Project3/project3-frontend/src/css/item pics/palm-leaves-sunlight-day-green-leaves-g7-1600x900-222736448.jpeg); */
+  /* background-image: url(/Users/brodude/Documents/Local_Github_byElvis/CSCE_315_Project3/project3-frontend/src/css/item pics/pexels-jess-loiterton-5232603.jpg); */
+ /* background-image: url(./item pics/pexels-jess-loiterton-5232603.jpg); */
+
+}
+  
+
+
+
+  .button{
+    font-size: 15px;
+    transition: .5s;
+    font-weight: bold;
+    opacity: .9;
+    align-self: center;
+   
+  
+  }
+  
+  
+  .button:hover{
+    font-size: 20px;
+    background-color: rgb(169, 250, 8) ;
+    color: rgb(0, 0, 0) ;
+    border: 1px solid rgb(255, 255, 255) ;
+    opacity: .9;
+
+
+
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

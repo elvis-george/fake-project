@@ -1,0 +1,26 @@
+.inventory {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inventory-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.inventory-buttons > * {
+    margin-top: 4%;
+    margin-right: 4%;
+    margin-bottom: 5%;
+}
+
+.sort-data {
+    display: flex;
+    align-items: center;
+}
+
+.sort-button {
+    margin-left: 2%;
+}

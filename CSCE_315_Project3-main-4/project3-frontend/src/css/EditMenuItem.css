@@ -1,0 +1,28 @@
+.edit-menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.menu-edit-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.menu-edit-row-name {
+    margin-right: 4%;
+}
+
+.menu-edit-row-name-entry {
+    margin-right: 4%;
+}
+
+.menu-edit-rows {
+    margin-bottom: 3%;
+}
+
+.edit-menu-item-title {
+    font-size: x-large;
+    margin-top: 2%;
+}

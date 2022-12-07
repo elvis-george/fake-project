@@ -1,0 +1,82 @@
+.server {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    flex-direction: row;
+} 
+
+.server-panel {
+    display: flex;
+    flex-direction: column;
+    width: 58%;
+}
+
+.server-panel-label {
+    margin-top: 7.5%;
+    margin-bottom: -2%;
+    font-size: xx-large;
+}
+
+
+.meal-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 10%;
+}
+
+
+.meal-options > * {
+    margin: 0% 3%;
+}
+
+
+.bases-meal-option {
+    display: flex;
+    font-size: xx-large;
+    flex-direction: column;
+}
+
+
+.proteins-meal-option {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.starters-meal-option {
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-area {
+    margin-top: 2%;
+}
+
+.cart-title-server {
+    margin-top: 5%;
+    align-self: center;
+    font-size: 30px;
+    justify-content: center;
+}
+
+.order-total {
+    font-size: large;
+    position: relative;
+    right: 28%;
+    top: -8%;
+}
+
+.submit-button {
+    position: relative;
+    top: -12%;
+    right: -65%;
+    width: 20%;
+    background-color: #FFFAF0;
+}
+
+.combo-box {
+    align-self: center;
+    margin-top: 15%;
+    padding-top: 20px;
+}

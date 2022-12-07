@@ -1,0 +1,24 @@
+.register {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    justify-content: center;
+    margin-left: 27%;
+    margin-top: 2%;
+}
+
+.name-input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.first-name-div {
+    margin-right: 10%;
+}
+
+.register-label {
+    font-size: 25px;
+    margin-bottom: 10%;
+}

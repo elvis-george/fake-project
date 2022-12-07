@@ -1,0 +1,43 @@
+.customer-checkout {
+    display: flex;
+}
+
+.checkout-area {
+    margin-top: 2.5%;
+    margin-left: 2%;
+}
+
+.checkout-area-title {
+    font-size: xx-large;
+    margin-top: 3%;
+}
+
+.checkout-area-total {
+    font-size: xx-large;
+    margin-top: 25%;
+}
+
+.not-checkout-area {
+    width: 180%;
+    display: flex;
+    flex-direction: column;
+}
+
+.customer-name-entry-box {
+    align-self: center;
+    margin-top: 20%;
+}
+
+.checkout-button {
+    margin-top: 5%;
+}
+
+.submit-alert {
+    align-self: center;
+    margin-top: 5%;
+    width: 20%;
+}
+
+.checkout-items-pagination {
+    margin-top: 2%;
+}

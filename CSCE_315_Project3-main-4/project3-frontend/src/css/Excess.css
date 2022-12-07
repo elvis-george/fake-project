@@ -1,0 +1,20 @@
+.excess {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.excess-input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 2%;
+}
+
+.excess-input-text {
+    margin-left: 25%;
+}
+
+.excess-input-button {
+    margin-left: 4%;
+}
