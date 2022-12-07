@@ -1,0 +1,23 @@
+.login {
+    display: flex;
+    zoom: 150%;
+    flex-direction: column;
+    width: 30%;
+    justify-content: center;
+    margin-left: 34%;
+    margin-top: 2%;
+}
+
+.login-label {
+    text-align: left;
+}
+
+.login-title {
+    font-size: 25px;
+    margin-bottom: 10%;
+}
+
+.login-img {
+    align-self: center;
+    margin-bottom: 10%;
+}

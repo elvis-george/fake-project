@@ -1,0 +1,12 @@
+.add-inventory-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 4%;
+}
+
+.item-textfields {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 3%;
+}

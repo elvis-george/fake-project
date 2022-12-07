@@ -1,0 +1,139 @@
+* {
+    text-decoration: none;
+}
+
+.customer-select {
+    display: flex;
+}
+
+.not-cart {
+    width: 60%;
+    margin-top: 4%;
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-area {
+    margin-top: 2%;
+    margin-right: 4%;
+}
+
+.cart-title {
+    margin-left: 25%;
+    align-self: center;
+    font-size: xx-large;
+}
+
+.order-total {
+    font-size: large;
+    position: relative;
+    right: 28%;
+    top: -8%;
+}
+
+.submit-button {
+    position: relative;
+    top: -12%;
+    right: -65%;
+    width: 20%;
+}
+
+.page-title {
+    font-size: xx-large;
+}
+
+.meal-buttons {
+    align-self: center;
+    margin-top: 3%;
+    margin-bottom: 3%;
+}
+
+.items-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+}
+
+.items {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: 13%;
+}
+
+.item-info {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    background-color: white;
+    padding-top: 2%;
+    width: 200%;
+}
+
+.items-in-cart {
+    display: flex;
+    flex-direction: column;
+}
+
+.entree-options {
+    display: flex;
+}
+
+.not-cart {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+}
+
+.combo-and-submit {
+    margin-top: 3%;
+}
+
+.cart-items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cart-top {
+    display: flex;
+    align-self: center;
+    align-items: center;
+    margin-top: 5%;
+}
+
+.cart-top > * {
+    margin-right: 80%;
+}
+
+.combo-check {
+    margin-top: 8%;
+}
+
+.cart-pagination {
+    margin-top: 2%;
+}
+
+.cart-item-with-delete {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.cart-item-with-delete > * {
+    margin-right: 4%;
+}
+
+.item-elements {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.item-pic {
+    width: 100%;
+    width: 100%;
+}

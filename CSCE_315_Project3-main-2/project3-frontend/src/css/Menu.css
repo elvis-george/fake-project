@@ -1,0 +1,24 @@
+.menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.menu > * {
+    margin-bottom: 2%;
+}
+
+.menu-buttons {
+    margin-bottom: 2%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.menu-buttons > * {
+    margin-right: 2%;
+}
+
+.sort-data-menu {
+    margin-left: 8%;
+}
