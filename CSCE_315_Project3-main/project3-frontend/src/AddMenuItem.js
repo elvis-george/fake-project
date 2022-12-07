@@ -2,12 +2,16 @@ import React, {useState } from 'react';
 import TextField from '@mui/material/Textfield';
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
 import apiClient from './services/apiClient';
 import './css/AddMenuItem.css';
 
 /**
  * This function allows the user to add an item to the Menu using the frontend.
  * @returns the updated menu to the frontend
+ * @public
  */
 const AddMenuItem = () => {
     
@@ -16,7 +20,7 @@ const AddMenuItem = () => {
     const [ name, setName ] = useState('');
     const [ quantity, setQuantity ] = useState(0);
     const [ price, setPrice ] = useState(0.0);
-    const [ itemType, setItemType ] = useState('');
+    const [ itemType, setItemType ] = useState('starter');
 
     const createMenuItem = async () => {
         const item = {
@@ -50,8 +54,21 @@ const AddMenuItem = () => {
     
     return (
         <div className='add-menu-item' >  
-            <label style={{fontSize: 'x-large'}} className='add-menu-item-title' >Add Menu Item</label> 
-            <TextField id='item-type-entry' label='Enter Item Type' variant='outlined' margin='normal' onChange={changeItemType} />
+            <label className='add-menu-item-title' >Add Menu Item</label> 
+            <div className='menu-type-add-menu-item' >
+                <FormControl fullWidth>
+                    <Select
+                        value={itemType}
+                        label="Type:"
+                        onChange={changeItemType}
+                        autoWidth
+                    >
+                        <MenuItem value='starter' >Starter</MenuItem>
+                        <MenuItem value='base' >Base</MenuItem>
+                        <MenuItem value='protein' >Protein</MenuItem>
+                    </Select>
+                </FormControl>
+            </div>
             <div className='item-textfields' > 
                 <TextField id='item-name-entry' label='Enter Item Name' variant='outlined' margin='normal' onChange={changeItemName} />
                 <TextField id='item-quantity-entry' label='Enter Item Quantity' variant='outlined' margin='normal' onChange={changeItemQuantity} />

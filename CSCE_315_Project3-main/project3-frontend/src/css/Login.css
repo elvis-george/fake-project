@@ -1,5 +1,6 @@
 .login {
     display: flex;
+    zoom: 150%;
     flex-direction: column;
     width: 30%;
     justify-content: center;

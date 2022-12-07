@@ -22,10 +22,12 @@ const EditMenuItem = () => {
     const submitMenuChanges = () => {
         from.selectedItems.map(async (row) => {
             const updatedItem = {
+                id: row.id,
                 name: row.name,
-                quantity: row.quantity
+                quantity: row.quantity,
+                price: row.price
             };
-            const { data, error } = await api.editMenuItem(updatedItem, row.id);
+            const { data, error } = await api.editMenuItem(row.type, updatedItem);
         });
     }
 

@@ -1,7 +1,9 @@
 .server {
     display: flex;
+    flex-direction: column;
+    align-self: center;
     flex-direction: row;
-}
+} 
 
 .server-panel {
     display: flex;
@@ -31,6 +33,7 @@
 
 .bases-meal-option {
     display: flex;
+    font-size: xx-large;
     flex-direction: column;
 }
 
@@ -53,7 +56,7 @@
 .cart-title-server {
     margin-top: 5%;
     align-self: center;
-    font-size: xx-large;
+    font-size: 30px;
     justify-content: center;
 }
 
@@ -74,5 +77,6 @@
 
 .combo-box {
     align-self: center;
-    margin-top: 7%;
+    margin-top: 15%;
+    padding-top: 20px;
 }

@@ -1,5 +1,6 @@
 const pool = require('../database');
 const { BadRequestError } = require('../utils/errors');
+const Menu = require("./menu")
 
 class Orders {
     
@@ -72,9 +73,9 @@ class Orders {
         const numItems = items.length;
         let totalCost = 0;
         for(let i = 0; i < numItems; i++){
-            if(items[i].starterId != 0){
-                totalCost += await this.addItem(items[i], newOrderId);
-            }
+            
+            totalCost += await this.addItem(items[i], newOrderId);
+            
         }
         totalCost = totalCost.toFixed(2);
         const update = await pool.query(
@@ -102,6 +103,8 @@ class Orders {
                 RETURNING   id
                 `, [item.isCombo, newOrderId, item.baseId, item.proteinId, price]
             );
+            await this.updateInventoryAndMenu({type: "base", itemId: item.baseId});
+            await this.updateInventoryAndMenu({type: "protein", itemId: item.proteinId});
             return price;
         }
         else if(item.starterId){
@@ -113,6 +116,7 @@ class Orders {
                 RETURNING   id
                 `, [isCombo, newOrderId, item.starterId, price.rows[0].price]
             ); 
+            await this.updateInventoryAndMenu({type: "starter", itemId: item.starterId});
             return price.rows[0].price;
         }
         else{
@@ -120,6 +124,24 @@ class Orders {
         }
         
     }
+
+    // This function updates the quantity of the given menu item along with its associated inventory ingredients
+    static async updateInventoryAndMenu({type, itemId}) {
+        const associatedInventoryItems = await pool.query(
+            `SELECT inventory_id FROM menu_inventory_bridge WHERE ${type+"_id"}=$1`, [itemId]
+        );
+
+        for (const item of associatedInventoryItems.rows) {
+            await pool.query(
+                `UPDATE inventory SET quantity=quantity-1 WHERE id=$1`, [item.inventory_id]
+            );
+        }
+
+        await pool.query(
+            `UPDATE ${type+"s"} SET quantity=quantity-1 WHERE id=$1`, [itemId]
+        );
+    }
+
     /**
      * This function generates the 'What Sales Together Report' 
      * @param {*} fromDate stores the date at which the 'What Sales together Report' should start
@@ -147,14 +169,54 @@ class Orders {
 
             ON t1.order_id=t2.order_id AND t1.itemId < t2.itemId AND t1.itemType != t2.itemType 
             GROUP BY t1.itemId, t2.itemId, t1.itemType, t2.itemType 
-            ORDER BY count(*) DESC;`, [fromDate, toDate]
+            ORDER BY count(*) DESC`, [fromDate, toDate]
         );
 
-        return results.rows[0];
+        return results.rows;
 
     }
 
-    
+    // This functions takes in a date and returns the excess report
+    static async fetchExcessReport({fromDate}) {
+        if (!fromDate) {
+            throw new BadRequestError("No fromDate provided");
+        }
+
+        const starterResults = await pool.query(
+            `SELECT starters.name
+            FROM starters 
+            JOIN (SELECT items.starter_id, COUNT(items.starter_id) FROM orders JOIN items ON orders.id=items.order_id WHERE orders.order_date BETWEEN $1 AND current_date GROUP BY items.starter_id) 
+            AS sold 
+            ON starters.id=sold.starter_id 
+            WHERE (starters.quantity+sold.count)*0.1>sold.count
+            `, [fromDate]
+        );
+
+        const baseResults = await pool.query(
+            `SELECT bases.name
+            FROM bases 
+            JOIN (SELECT items.base_id, COUNT(items.base_id) FROM orders JOIN items ON orders.id=items.order_id WHERE orders.order_date BETWEEN $1 AND current_date GROUP BY items.base_id) 
+            AS sold 
+            ON bases.id=sold.base_id 
+            WHERE (bases.quantity+sold.count)*0.1>sold.count
+            `, [fromDate]
+        );
+
+        const proteinResults = await pool.query(
+            `SELECT proteins.name
+            FROM proteins 
+            JOIN (SELECT items.protein_id, COUNT(items.protein_id) FROM orders JOIN items ON orders.id=items.order_id WHERE orders.order_date BETWEEN $1 AND current_date GROUP BY items.protein_id) 
+            AS sold 
+            ON proteins.id=sold.protein_id 
+            WHERE (proteins.quantity+sold.count)*0.1>sold.count
+            `, [fromDate]
+        );
+
+        const excessReport = starterResults.rows.concat(baseResults.rows, proteinResults.rows);
+
+        return excessReport;
+
+    }
 }
 
 module.exports = Orders

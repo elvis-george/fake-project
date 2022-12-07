@@ -16,9 +16,9 @@ import Checkbox from '@mui/material/Checkbox';
 import './css/Inventory.css';
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 200 },
-  { field: 'ingredient_name', headerName: 'Ingredient Name', width: 178 },
-  { field: 'quantity', headerName: 'Quantity', width: 178 },
+  { field: 'id', headerName: 'ID', width: 75 },
+  { field: 'ingredient_name', headerName: 'Ingredient Name', width: 385 },
+  { field: 'quantity', headerName: 'Quantity', width: 385 },
 ];
 
 const Inventory = () => {
@@ -212,7 +212,7 @@ const Inventory = () => {
                     <Button variant='outlined' margin='dense' onClick={sortItems} >Sort</Button>
                 </div>
             </div>
-            <div className='table' style={{ height: 400, width: '60%' }}>
+            <div className='table' style={{ opacity: .8, backgroundColor: '#FFFFFF', height: 400, width: '60%' }}>
                 {table}
             </div>
         </div>

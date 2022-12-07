@@ -20,18 +20,18 @@ const columns = [
     { field: 'count', headerName: 'Count', width: 300 },
 ];
 
-export default function Sales() {
+export default function Sales() {   
 
-    const [ table, setTable ] = useState(
-        <DataGrid
+    const [ table, setTable ] = useState(   //creates a state variable called table and a function called setTable
+        <DataGrid   // creates a DataGrid component
             rows={[]}
             getRowId={(row) => salesItems.data.indexOf(row)}
             columns={columns}
         />
     );
-    const [ startDate, setStartDate ] = useState('');
-    const [ endDate, setEndDate ] = useState('');
-    const [ sortBy, setSortBy ] = useState('Name');
+    const [ startDate, setStartDate ] = useState('');   //creates a state variable called startDate and a function called setStartDate
+    const [ endDate, setEndDate ] = useState('');       
+    const [ sortBy, setSortBy ] = useState('Name');       
     const [ items, SetItems ] = useState({});
     const [ isDescending, setIsDescending ] = useState(false);
 
@@ -50,8 +50,8 @@ export default function Sales() {
             />
         );
     };
-
-    const changeStartDate = (e) => {
+ 
+    const changeStartDate = (e) => {    
         setStartDate(e.target.value);
     };
     
@@ -71,9 +71,9 @@ export default function Sales() {
         }
     };
 
-    const sortItems = () => {
-        let itemsToSort = [...items.data];
-        if (isDescending === true) {
+    const sortItems = () => { 
+        let itemsToSort = [...items.data];  // make a copy of the items
+        if (isDescending === true) {    
             setTable(
                 <DataGrid
                     rows={(sortBy === 'Name') ? itemsToSort.sort(function(a, b){return b.name.localeCompare(a.name)}) : 
@@ -83,7 +83,7 @@ export default function Sales() {
                 />
             );
         } else {
-            setTable(
+            setTable(   
                 <DataGrid
                     rows={(sortBy === 'Name') ? itemsToSort.sort(function(a, b){return a.name.localeCompare(b.name)}) : 
                                 itemsToSort.sort(function(a, b){return a.count - b.count})}
@@ -95,7 +95,7 @@ export default function Sales() {
     };
 
     return (
-        <div className='sales' >
+        <div className='sales' > 
             <div className='sales-nav-bar' >
                 <Box sx={{ width: '100%' }}>
                     <Tabs
@@ -170,7 +170,7 @@ export default function Sales() {
                 </div>
                 <FormControlLabel
                     control={
-                        <Checkbox onClick={changeIsDescending} name="Descending" />
+                        <Checkbox onClick={changeIsDescending} name="Descending" /> 
                     }
                     label="Descending"
                 />
@@ -178,7 +178,7 @@ export default function Sales() {
                     <Button variant='outlined' margin='dense' onClick={sortItems} >Sort</Button>
                 </div>
             </div>
-            <div style={{ height: 400, width: '60%', marginTop: '2%' }}>
+            <div style={{ opacity: .8, backgroundColor: '#FFFFFF', height: 400, width: '60%', marginTop: '2%' }}> 
                 {table}
             </div>
         </div>

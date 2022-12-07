@@ -107,6 +107,7 @@ class Inventory {
         return results.rows[0];
     }
 
+    // This function gets the restock report
     static async getRestockReport() {
         const results = await pool.query('SELECT ingredient_name FROM inventory WHERE quantity < 25');
 

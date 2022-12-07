@@ -20,16 +20,17 @@ const columns = [
     { field: 'ingredient_name', headerName: 'Restock Item', width: 600 },
 ];
 
-export default function Restock() {
+export default function Restock() { // k
 
     const api = apiClient; // apiClient is a singleton
     let restockItems = null;
 
-    const [ items, setItems ] = useState({});
-    const [ selectedItems, setSelectedItems ] = useState([]);
-    const [ sortBy, setSortBy ] = useState('Restock Item');
-    const [ isDescending, setIsDescending ] = useState(false);
-    const [ table, setTable ] = useState(
+    const [ items, setItems ] = useState({}); // this is a state variable called items and a function called setItems
+    const [ selectedItems, setSelectedItems ] = useState([]);   // this is a state variable called selectedItems and a function called setSelectedItems
+    const [ sortBy, setSortBy ] = useState('Restock Item');  // this is a state variable called sortBy and a function called setSortBy
+    const [ isDescending, setIsDescending ] = useState(false); // this is a state variable called isDescending and a function called setIsDescending
+    const [ inventoryItems, setInventoryItems ] = useState(null);
+    const [ table, setTable ] = useState( // this is a state variable called table and a function called setTable
         <DataGrid
             rows={[]}
             getRowId={(row) => restockItems.data.indexOf(row)}
@@ -38,11 +39,11 @@ export default function Restock() {
         />
     );
 
-    const changeSortBy = (e) => {
+    const changeSortBy = (e) => { // this line is a function called changeSortBy
         setSortBy(e.target.value);
     };
 
-    const changeIsDescending = (e) => {
+    const changeIsDescending = (e) => { // this is a function called changeIsDescending
         if (e.target.checked === true) {
             setIsDescending(true);
         } else {
@@ -50,17 +51,17 @@ export default function Restock() {
         }
     };
 
-    const fetchRestockReport = async () => {
-        restockItems = await api.restockReport();
-        setItems(restockItems);
-        await console.log(restockItems.data);
+    const fetchRestockReport = async () => { // this is a function called fetchRestockReport
+        restockItems = await api.restockReport(); // restockItems is a variable that is equal to the restockReport function in apiClient
+        setItems(restockItems); // this is a console log of the restockItems data
+        await console.log(restockItems.data); // this line sets the table to the restockItems data
         setTable(
             <DataGrid 
-                rows={restockItems.data.sort(function(a, b){return a.ingredient_name.localeCompare(b.ingredient_name)})}
-                getRowId={(row) => restockItems.data.indexOf(row)}
-                columns={columns}
-                checkboxSelection
-                onSelectionModelChange={(ids) => {
+                rows={restockItems.data.sort(function(a, b){return a.ingredient_name.localeCompare(b.ingredient_name)})} // this line sets the rows to the restockItems data
+                getRowId={(row) => restockItems.data.indexOf(row)} // this line creates a unique id for each row
+                columns={columns} // this line sets the columns to the columns variable
+                checkboxSelection // this line allows for the checkbox selection
+                onSelectionModelChange={(ids) => { // this line allows for the selection of multiple rows
                     const selectedRowsData = ids.map((id) => restockItems.data.find((row) => restockItems.data.indexOf(row) === id));
                     setSelectedItems(selectedRowsData);   
                 }}
@@ -68,9 +69,19 @@ export default function Restock() {
         );
     };
 
-    const doRestock = () => {
+    const doRestock = async () => {
+        console.log(inventoryItems);
         selectedItems.map(async (row) => {
-            // const { data, error } = await api.deleteInventoryItem(row.id);
+            for (let i = 0; i < inventoryItems.length; i += 1) {
+                if (row.ingredient_name === inventoryItems[i].ingredient_name) {
+                    const updatedItem = {
+                        ingredient_name: inventoryItems[i].ingredient_name,
+                        quantity: inventoryItems[i].quantity + 100
+                    };
+                    const { data, error } = await api.editInventoryItem(updatedItem, inventoryItems[i].id);
+                    console.log(data);
+                }
+            }
         });
         fetchRestockReport();
     };
@@ -106,12 +117,21 @@ export default function Restock() {
         }
     };
 
+    const getInventoryItems = async () => {
+        const { data, error } = await api.fetchInventory();
+        setInventoryItems(data);
+    };
+
     useEffect(() => {
         console.log(selectedItems);
     }, [selectedItems]);
 
     useEffect(() => {
         fetchRestockReport();
+    }, []);
+
+    useEffect(() => {
+        getInventoryItems();
     }, []);
 
     return (
@@ -199,7 +219,7 @@ export default function Restock() {
                     <Button variant='outlined' margin='dense' onClick={sortItems} >Sort</Button>
                 </div>
             </div>
-            <div style={{ height: 400, width: '60%' }}>
+            <div style={{opacity: .8, backgroundColor: '#FFFFFF', height: 400, width: '60%' }}>
                 {table}
             </div>
         </div>

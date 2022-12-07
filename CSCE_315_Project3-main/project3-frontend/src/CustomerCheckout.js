@@ -104,8 +104,11 @@ const CustomerCheckout = () => {
         setCartItems( //set cartItems to an array of JSX elements
             <div className='cart-items' >
                 {items}
-                {(cartItemsPages.length === 0) ? null : <Pagination hidePrevButton={true} hideNextButton={true} count={cartItemsPages.length} page={cartItemsPage} 
-                    onChange={changeCartItemsPage} color="primary" />
+                {(cartItemsPages.length === 0) ? null : 
+                    <div className='checkout-items-pagination' >
+                        <Pagination hidePrevButton={true} hideNextButton={true} count={cartItemsPages.length} page={cartItemsPage} 
+                            onChange={changeCartItemsPage} color="primary" />
+                    </div>
                 }
             </div>
         );
@@ -115,20 +118,24 @@ const CustomerCheckout = () => {
         let orders = null;
         let orderItems = [];
 
+        console.log(from.combo);
+        let wasComboSet = false;
+
         from.cartItems.map((item) => { //for each item in cartItems
             (item.base === undefined) ? 
                 orderItems.push({ //push an object to orderItems
-                    "isCombo"   : false,
+                    "isCombo"   : (from.combo && !wasComboSet) ? true : false,
                     "starterId" : String(starterIds.indexOf(item) + 1),
                     "baseId"    : "",
                     "proteinId" : ""
                 }) : 
                 orderItems.push({ //push an object to orderItems
-                    "isCombo"   : false,
+                    "isCombo"   : (from.combo && !wasComboSet) ? true : false,
                     "starterId" : '',
                     "baseId"    : String(baseIds.indexOf(item.base) + 1),
                     "proteinId" : String(proteinIds.indexOf(item.protein) + 1)
                 });
+                wasComboSet = true;
         });
 
         orders = { //orders is an object
@@ -170,7 +177,7 @@ const CustomerCheckout = () => {
                     {from.combo === true ?
                         <label>+ Combo</label> : null
                     }
-                    <label className='checkout-area-total' >Total: {from.cost}</label>
+                    <label className='checkout-area-total' >Total: ${from.cost.toFixed(2)}</label>
                 </Card>
             </div>
             <div className='not-checkout-area' >

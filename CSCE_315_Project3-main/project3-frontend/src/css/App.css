@@ -1,7 +1,26 @@
 .App {
-  text-align: center;
+  text-align: center; 
+  
 }
 
+
+.App button{
+  font-size: 16px;
+  transition: .5s;
+  font-weight: bold;
+  opacity: .8;
+  align-self: center;
+
+}
+
+
+.App button:hover{
+  font-size: 20px;
+  background-color: rgb(169, 250, 8) ;
+  color: rgb(0, 0, 0) ;
+  border: 1px solid rgb(255, 255, 255) ;
+  opacity: .8;
+}
 .center {
   display: block;
   margin-left: auto;

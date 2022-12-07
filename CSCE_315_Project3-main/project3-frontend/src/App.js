@@ -32,19 +32,22 @@ import EditMenuItem from './EditMenuItem.js';
 import Divider from '@mui/material/Divider';
 import { GoogleLogin } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
+import apiClient from './services/apiClient.js';
 import './css/App.css'; 
 
 const clientId = '548414080736-sebecd81nkhcn439o0k1mudqlbt52qla.apps.googleusercontent.com';
 
 function App() {
 
+    const api = apiClient;
     const location = useLocation();
     const [ curPage, setCurPage ] = useState('');
     const [ user, setUsername ] = useState({});
+    const [ userType, setUserType ] = useState('');
 
     const changePageTitle = () => {
         if (location.pathname === '/') {
-            setCurPage('Home');
+            setCurPage('');
         } else if (location.pathname === '/login') {
             setCurPage('Login');
         } else if (location.pathname === '/register') {
@@ -74,19 +77,37 @@ function App() {
 
     function handleCallbackResponse(response){
         var userObject = jwt_decode(response.credential);
-        console.log(userObject);
         setUsername(userObject);
+        console.log(user);
     }
 
     function handleSignOut() {
         setUsername({});
+        setUserType('');
     }
 
+    const googleTranslateElementInit = () => {
+        new window.google.translate.TranslateElement({ pageLanguage: 'en', layout: window.google.translate.TranslateElement.FloatPosition.TOP_LEFT }, 'google_translate_element')
+    }
+
+    const checkUserPermissions = async () => {
+        const { data, error } = await api.getUserClass(user.email);
+        setUserType(data[0].type);
+        console.log(data[0].type);
+    };
+
     useEffect(() => {
-        if (JSON.parse(localStorage.getItem("user")) !== undefined) {
+        if (JSON.stringify(JSON.parse(localStorage.getItem("user"))) !== '{}') {
             setUsername(JSON.parse(localStorage.getItem("user")));
+            console.log(user);
         }
-        console.log(user);
+    }, []);
+
+    useEffect(() => {
+        var addScript = document.createElement('script');
+        addScript.setAttribute('src', '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit');
+        document.body.appendChild(addScript);
+        window.googleTranslateElementInit = googleTranslateElementInit;
     }, []);
 
     useEffect(() => {
@@ -98,10 +119,14 @@ function App() {
         changePageTitle()
     }, [location]);
 
+    useEffect(() => {
+        checkUserPermissions();
+    }, [user]);
+
     return (
         <div className="App">
             <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="static" style={{ background: '#3eda00' }} >
+                <AppBar position="static" style={{ background: '#515151' }} >
                     <Toolbar>
                         <IconButton
                             size="large"
@@ -118,62 +143,54 @@ function App() {
                                 <HomeIcon />
                             </Link>
                         </IconButton>
-                        <Link
-                            to={{
-                                pathname: '/server'
-                            }}
-                        >
-                            <Button color='inherit' margin='normal' >
-                                Servers
-                            </Button>
-                        </Link>
+                        {(userType === 'server' || userType === 'manager') ? 
+                            <Link
+                                to={{
+                                    pathname: '/server'
+                                }}
+                            >
+                                <Button color='inherit' margin='normal' >
+                                    Servers
+                                </Button>
+                            </Link> : null
+                        }
                         <Divider orientation="vertical" variant='middle' flexItem />
-                        <Link
-                            to={{
-                                pathname: '/manager/sales'
-                            }}
-                        >
-                            <Button color='inherit' margin='normal' >
-                                Managers
-                            </Button>
-                        </Link>
+                        {(userType === 'manager') ? 
+                            <Link
+                                to={{
+                                    pathname: '/manager/sales'
+                                }}
+                            >
+                                <Button color='inherit' margin='normal' >
+                                    Managers
+                                </Button>
+                            </Link> : null
+                        }
                         <Typography className='page-title' variant="h6" component="div" sx={{ flexGrow: 1 }}>
                             <label className='page-title-text' >{curPage}</label>
                         </Typography>
+                        <div id="google_translate_element"></div>
                         {user.name === undefined ? 
                             <GoogleLogin
                                 onSuccess={handleCallbackResponse}
                                 onError={() => {
-                                console.log('Login Failed');
+                                    console.log('Login Failed');
                                 }}
                                 useOneTap
-                            /> : <label>{user.name}</label>
+                            /> : null
                         }
                         {user.name !== undefined ? 
-                            <Button color='inherit' margin='normal' onClick= {handleSignOut} >
-                                Sign Out
-                            </Button> : null
+                            <div>
+                                <label>{user.name}</label>
+                                <Button color='inherit' margin='normal' onClick= {handleSignOut} >
+                                    Sign Out
+                                </Button>
+                            </div> : null
                         }
-                        
-
-                        {/* <Link
-                            to={{
-                                pathname: '/login'
-                            }}
-                        >
-                            <Button color="inherit">Login</Button>
-                        </Link>
-                        <Divider orientation="vertical" variant='middle' flexItem />
-                        <Link
-                            to={{
-                                pathname: '/register'
-                            }}
-                        >
-                            <Button color="inherit">Register</Button>
-                        </Link> */}
                     </Toolbar>
                 </AppBar>
             </Box>
+
             <div>
                 <Routes>
                     <Route path='/' element={<Home />} /> 

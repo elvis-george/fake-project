@@ -2,7 +2,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+}
 
+.pair-nav-bar {
+    margin-bottom: 2%;
 }
 
 .pair-buttons {
@@ -11,12 +14,18 @@
 
 }
 
-.sort-data {
+.sort-data-pair {
     display: flex;
     align-items: center;
-  
+    margin-left: 5%;
+    margin-right: 2%;
+}
+
+.sort-descending-pair {
+    align-self: center;
 }
 
 .sort-button {
+    align-self: center;
     margin-left: 2%;
 }

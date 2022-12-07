@@ -27,10 +27,7 @@ class Menu {
             }
         });
 
-        console.log(itemType);
-
         if(itemType === "base"){
-            console.log('am here');
             const results = await pool.query(
                 `INSERT INTO bases (name, quantity, price)
                 VALUES     ($1, $2, $3)
@@ -168,10 +165,11 @@ class Menu {
      * @param {*} itemTypeId consists of the type of the menu item (base, protein, starter) and the id of the menu item.
      * @returns either all the items of a specific type, or a specific item defined by type and id.
      */
-    static async fetchItemById(itemTypeId) {
+    static async fetchItem(itemTypeId) {
         if (!itemTypeId) {
             throw new BadRequestError("No itemTypeId provided");
         }
+
         // ~~~/menu/type-id
         if(itemTypeId.split("-").length == 1){
             if(itemTypeId.split("-")[0] === "base"){
@@ -187,7 +185,7 @@ class Menu {
                 return results.rows; 
             }
         }
-        else if(itemTypeId.split("-").length == 2){
+        else if(itemTypeId.split("-").length == 2 && isNaN(itemTypeId.split("-")[1]) == false){
             if(itemTypeId.split("-")[0] === "base"){
                 const results = await pool.query('SELECT * FROM bases WHERE id=$1', [itemTypeId.split("-")[1]]);
                 return results.rows[0]; 
@@ -198,6 +196,19 @@ class Menu {
             }
             if(itemTypeId.split("-")[0] === "starter"){
                 const results = await pool.query('SELECT * FROM starters WHERE id=$1', [itemTypeId.split("-")[1]]);
+                return results.rows[0]; 
+            }
+        } else if (itemTypeId.split("-").length == 2 && isNaN(itemTypeId.split("-")[1]) == true) {
+            if(itemTypeId.split("-")[0] === "base"){
+                const results = await pool.query('SELECT * FROM bases WHERE name=$1', [itemTypeId.split("-")[1]]);
+                return results.rows[0]; 
+            }
+            if(itemTypeId.split("-")[0] === "protein"){
+                const results = await pool.query('SELECT * FROM proteins WHERE name=$1', [itemTypeId.split("-")[1]]);
+                return results.rows[0]; 
+            }
+            if(itemTypeId.split("-")[0] === "starter"){
+                const results = await pool.query('SELECT * FROM starters WHERE name=$1', [itemTypeId.split("-")[1]]);
                 return results.rows[0]; 
             }
         }

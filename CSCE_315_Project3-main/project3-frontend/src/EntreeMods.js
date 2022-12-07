@@ -10,14 +10,18 @@ import FormGroup from '@mui/material/FormGroup';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
+import apiClient from './services/apiClient';
 import './css/EntreeMods.css';
 
 const EntreeMods = ({ base }) => {
-
+    
+    const api = apiClient; // apiClient is a singleton
     const location = useLocation();
     const from = location.state;
 
+    const [ proteinList, setProteinList ] = useState([]);
     const [ protein, setProtein ] = useState("");
+    const [ proteinItems, setProteinItems ] = useState(null);
     const [ toppings, setToppings ] = useState([]);
     const [ dressings, setDressings ] = useState([]);
 
@@ -41,6 +45,46 @@ const EntreeMods = ({ base }) => {
         }
     };
 
+    const getProteinList = async () => {
+        const newProteinItems = await api.getMenuItemByID('protein');
+        setProteinList(newProteinItems);
+    };
+
+    useEffect(() => {
+        getProteinList();
+        console.log(proteinList);
+    }, []);
+
+    useEffect(() => {
+        console.log(proteinList);
+        showProteinList();
+    }, [proteinList]);
+
+    const showProteinList = () => {
+        let items = null;
+
+        if (proteinList.data !== undefined) {
+            items = (
+                        <FormControl>
+                            <FormLabel id="demo-radio-buttons-group-label">Protein</FormLabel>
+                            <RadioGroup
+                                aria-labelledby="radio-buttons-group-label"
+                                name="protein-radio-buttons"
+                            >
+                                {proteinList.data.map(protein => {
+                                    console.log(protein)
+                                    return <FormControlLabel value={protein.name} control={<Radio onClick={changeProtein} />} label={protein.name} />
+                                })}
+                            </RadioGroup>
+                        </FormControl>
+                    );
+        }
+
+        setProteinItems(items);
+        console.log(items);
+    };
+
+
     return (
         <div className='entree-mods' >
             <div className='selected-entree' >
@@ -63,19 +107,7 @@ const EntreeMods = ({ base }) => {
             <div className='main-panel' >
                 <div className='selection-panel' >
                     <div className='protein-selection' >
-                        <FormControl>
-                            <FormLabel id="demo-radio-buttons-group-label">Protein</FormLabel>
-                            <RadioGroup
-                                aria-labelledby="radio-buttons-group-label"
-                                name="protein-radio-buttons"
-                            >
-                                <FormControlLabel value="Gyro" control={<Radio onClick={changeProtein} />} label="Gyro" />
-                                <FormControlLabel value="Falafel" control={<Radio onClick={changeProtein} />} label="Falafel" />
-                                <FormControlLabel value="Vegetable Medley" control={<Radio onClick={changeProtein} />} label="Vegetable Medley" />
-                                <FormControlLabel value="Meatballs" control={<Radio onClick={changeProtein} />} label="Meatballs" />
-                                <FormControlLabel value="Chicken" control={<Radio onClick={changeProtein} />} label="Chicken" />
-                            </RadioGroup>
-                        </FormControl>
+                        {proteinItems}
                     </div>
                     <div className='toppings-selection' >
                         <FormControl component="fieldset" variant="standard">
@@ -208,6 +240,8 @@ const EntreeMods = ({ base }) => {
                                 toppings: toppings,
                                 dressings: dressings,
                                 combo: from.combo,
+                                comboSet: from.comboSet,
+                                cost: from.cost,
                                 cartItemsArr: [...from.cartItemsArr, [{
                                     base: from.base,
                                     starters: from.starters,

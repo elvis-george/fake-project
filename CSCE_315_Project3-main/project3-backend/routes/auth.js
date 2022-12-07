@@ -1,7 +1,11 @@
 const express = require("express");
 const router = express.Router()
+const Auth = require('../models/user');
 
 router.get("/", async (req, res, next) => {
+    // #swagger.tags = ['Auth']
+    // #swagger.path = '/auth/'
+    // #swagger.description = 'Endpoint to do a health check.'
     try {
         return res.status(200).json({auth: "auth"})
     } catch (err) {
@@ -9,13 +13,37 @@ router.get("/", async (req, res, next) => {
     }
 })
 
-/**
- * Hunter - done but not thoroughly tested
- * http://localhost:3001/auth/new?firstName=1123hunter2&lastName=f2123inch4&email=hf2@gmail.com&security_token=2123&type=emp
- */
+
 router.get("/new", async (req, res, next) => {
+    // #swagger.tags = ['Auth']
+    // #swagger.path = '/auth/new'
+    // #swagger.description = 'Endpoint to create a new authorized user.'
+    /* #swagger.parameters['firstName'] = {
+        in: 'query',
+        description: 'First name of new user.',
+        required: true
+    } */
+    /* #swagger.parameters['lastName'] = {
+        in: 'query',
+        description: 'Last name of new user.',
+        required: true
+    } */
+    /* #swagger.parameters['email'] = {
+        in: 'query',
+        description: 'Email address name of new user.',
+        required: true
+    } */
+    /* #swagger.parameters['type'] = {
+        in: 'query',
+        description: 'Type (server,manager) name of new user.',
+        required: true
+    } */
+    /* #swagger.parameters['security_token'] = {
+        in: 'query',
+        description: 'Google security token of new user account.',
+        required: true
+    } */
     try {
-        console.log(req.query);
         const employee = await Auth.addEmployee({
             firstName: req.query?.firstName,
             lastName: req.query?.lastName,
@@ -29,14 +57,11 @@ router.get("/new", async (req, res, next) => {
     }
 })
 
-/**
- * Hunter - Done
- * This function returns the table of employees
- * Usage: http://localhost:3001/auth/new?firstName=1123hunter2&lastName=f2123inch4&email=hf2@gmail.com&security_token=2123&type=emp
- */
  router.get("/all", async (req, res, next) => {
+    // #swagger.tags = ['Auth']
+    // #swagger.path = '/auth/all'
+    // #swagger.description = 'Endpoint to get all employee data.'
     try {
-        console.log(req.query);
         const employee = await Auth.getAll();
         return res.status(200).json(employee);
     } catch (err) {
@@ -44,13 +69,15 @@ router.get("/new", async (req, res, next) => {
     }
 })
 
-/**
- * Hunter - Done
- * http://localhost:3001/auth/type?email=hunter@gmail.com
- * This function returns the type of the employee based on the email.
- * Usage: http://localhost:3001/auth/type?email=hunter@gmail.com
- */
 router.get("/type", async (req, res, next) => {
+    // #swagger.tags = ['Auth']
+    // #swagger.path = '/auth/type'
+    // #swagger.description = 'Endpoint to get the type of user (server,manager,none).'
+    /* #swagger.parameters['email'] = {
+        in: 'query',
+        description: 'Email address of questioned user.',
+        required: true
+    } */
     try {
         const userType = await Auth.getClassification(req.query?.email)
         return res.status(200).json(userType)
@@ -59,14 +86,36 @@ router.get("/type", async (req, res, next) => {
     }
 })
 
-/**
- * Hunter - done but not thoroughly tested
- * This function will edit all the attributes based on the given id
- * Usage: http://localhost:3001/auth/edit?firstName=1213hunter2&lastName=f2in32ch4&email=hf3@gmail.com&security_token=2112323&type=emp&id=7
- */
 router.put("/edit", async (req, res, next) => {
+    // #swagger.tags = ['Auth']
+    // #swagger.path = '/auth/edit'
+    // #swagger.description = 'Endpoint to create a edit a current authorized user.'
+    /* #swagger.parameters['firstName'] = {
+        in: 'query',
+        description: 'First name of the user.',
+        required: true
+    } */
+    /* #swagger.parameters['lastName'] = {
+        in: 'query',
+        description: 'Last name of the user.',
+        required: true
+    } */
+    /* #swagger.parameters['email'] = {
+        in: 'query',
+        description: 'Email address name of the user.',
+        required: true
+    } */
+    /* #swagger.parameters['type'] = {
+        in: 'query',
+        description: 'Type (server,manager) name of the user.',
+        required: true
+    } */
+    /* #swagger.parameters['security_token'] = {
+        in: 'query',
+        description: 'Google security token of the user account.',
+        required: true
+    } */
     try {
-        console.log(req.query);
         const employee = await Auth.editEmployee({
             firstName: req.query?.firstName,
             lastName: req.query?.lastName,

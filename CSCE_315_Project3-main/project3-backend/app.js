@@ -6,6 +6,8 @@ const inventoryRoutes = require('./routes/inventory')
 const menuRoutes = require('./routes/menu')
 const orderRoutes = require('./routes/orders')
 const authRoutes = require('./routes/auth')
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('./swagger-output.json')
 
 /*** Create Express App ***/
 const app = express()
@@ -19,6 +21,8 @@ app.use("/auth", authRoutes)
 app.use("/inventory", inventoryRoutes)
 app.use("/menu", menuRoutes)
 app.use("/orders", orderRoutes)
+
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 // Health Check
 app.get("/", async (req, res, next) => {

@@ -10,3 +10,13 @@
     flex-direction: row;
     margin-bottom: 3%;
 }
+
+.add-menu-item-title {
+    font-size: 'x-large';
+    margin-bottom: 2%;
+}
+
+.menu-type-add-menu-item {
+    display: flex;
+    align-items: center;
+}

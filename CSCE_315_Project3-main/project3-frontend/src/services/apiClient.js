@@ -76,6 +76,14 @@ class ApiClient {
     async fetchMenuItems() {
         return await this.request({endpoint: "menu", method: `GET`});
     }
+
+    /**
+     * API cliet to fetch all the menu items of certain type (base, starter, or protein)
+     * @returns a table with all the menu items of given type
+     */
+     async fetchMenuItemsByType(itemType) {
+        return await this.request({endpoint: `menu/${itemType}`, method: `GET`});
+    }
     
     /**
      * API client to fetch a specific menu item based on ID 
@@ -84,6 +92,15 @@ class ApiClient {
      */
     async getMenuItemByID(itemID) {
         return await this.request({endpoint: `menu/${itemID}`, method: `GET`});
+    }
+
+    /**
+     * API client to fetch a specific menu item based on it's name
+     * @param {*} itemName Name of the menu item that the user is looking for
+     * @returns menu item whose name matched menu name
+     */
+     async getMenuItemByName(itemName) {
+        return await this.request({endpoint: `menu/${itemName}`, method: `GET`});
     }
 
     /**
@@ -115,6 +132,10 @@ class ApiClient {
         return await this.request({endpoint: `menu/${itemID}`, method: `DELETE`});
     }
 
+    async fetchMenuPrices() {
+        return await this.request({endpoint: `menu/prices`, method:`GET`});
+    }
+
     /**
      * API client to fetch sales report
      * @param {*} fromDate beginning date for sales report generation
@@ -131,7 +152,8 @@ class ApiClient {
      * @returns newly added order
      */
     async addOrder(orderPlaced) {
-        return await this.request({endpoint: `orders`, method:`POST`, data: {orderPlaced}});
+        return await this.request({endpoint: `orders`, method:`POST`, data: {"employeeId": orderPlaced.employeeId, "items": orderPlaced.items}});
+        // return await this.request({endpoint: `orders`, method:`POST`, data: {orderPlaced}});
     }
 
     // returns most popular pairs
@@ -142,11 +164,24 @@ class ApiClient {
      * @returns all the most popular pairs of items among the customers in the given timeframe
      */
     async popularPairs(fromDate, toDate) {
-        return await this.request({endpoint: `orders/pairs`, method: `GET`, data: {fromDate, toDate}});
+        return await this.request({endpoint: `orders/pairs?fromDate=${fromDate}&toDate=${toDate}`, method: `GET`});
     }
 
     async restockReport() {
         return await this.request({endpoint: `inventory/restock`, method: `GET`});
+    }
+
+    async excessReport(fromDate) {
+        return await this.request({endpoint: `orders/excess?fromDate=${fromDate}`, method: `GET`});
+    }
+
+    /**
+     * API Client to check database to see what authorization level the user has
+     * @param {*} email email address of logged in user
+     * @returns the type of user they are (server, manager, none)
+     */
+    async getUserClass(email) {
+        return await this.request({endpoint: `auth/type?email=${email}`, method: `GET`});
     }
 }
 

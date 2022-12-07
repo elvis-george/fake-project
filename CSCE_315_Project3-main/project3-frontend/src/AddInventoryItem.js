@@ -9,6 +9,7 @@ import './css/AddInventoryItem.css';
  * This function allows the user to add an item to the Inventory
  * It uses an API client to connect the frontend to the backend.
  * @returns a table with the updated inventory on the frontend
+ * @public
  */
 const AddInventoryItem = () => { // add invertory item
 

@@ -9,51 +9,52 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import './css/Server.css';
 import apiClient from './services/apiClient';
+import { Typography } from '@mui/material';
 
 const Server = () => {
 
-    const api = apiClient;
+    const api = apiClient; //apiClient is a class that has all the api calls
 
-    const [ base, setBase ] = useState("");
-    const [ protein, setProtein ] = useState("");
-    const [ starter, setStarter ] = useState("");
-    const [ combo, setCombo ] = useState(false);
+    const [ base, setBase ] = useState(""); // creates a state variable called base and a function called setBase
+    const [ protein, setProtein ] = useState(""); // creates a state variable called protein and a function called setProtein
+    const [ starter, setStarter ] = useState(""); // creates a state variable called starter and a function called setStarter
+    const [ combo, setCombo ] = useState(false); // creates a state variable called combo and a function called setCombo
 
-    const baseIds = ["Grain Bowl", "Salad", "Pita", "Greens and Grains"];
-    const proteinIds = ["Gyro", "Falafel", "Vegetable Medley", "Meatballs", "Chicken"];
-    const starterIds = ["2 Falafels", "Hummus and Pita", "Vegan Box", "Garlic Fries"];
+    const baseIds = ["Grain Bowl", "Salad", "Pita", "Greens and Grains"]; // creates an array of baseIds
+    const proteinIds = ["Gyro", "Falafel", "Vegetable Medley", "Meatballs", "Chicken"]; // creates an array of proteinIds
+    const starterIds = ["2 Falafels", "Hummus and Pita", "Vegan Box", "Garlic Fries"]; // creates an array of starterIds
 
-    const cost = null;
+    const cost = null; // creates a variable called cost
 
-    const addOrder = async orders => {
-        const { data, error } = await api.addOrder(orders);
-        await console.log(data);
+    const addOrder = async orders => { // creates a function called addOrder that takes in an array of orders
+        const { data, error } = await api.addOrder(orders); // creates a variable called data and a variable called error that are the result of calling the addOrder function in apiClient
+        await console.log(data); // prints the data to the console
     };
 
-    const changeBase = (e) => {
-        setBase(e.target.value);
+    const changeBase = (e) => { // creates a function called changeBase that takes in an event
+        setBase(e.target.value); // sets the base state variable to the value of the event
     };
 
-    const changeProtein = (e) => {
-        setProtein(e.target.value);
+    const changeProtein = (e) => { // creates a function called changeProtein that takes in an event
+        setProtein(e.target.value); // sets the protein state variable to the value of the event
     };
 
-    const changeStarter = (e) => {
-        setStarter(e.target.value);
+    const changeStarter = (e) => { // creates a function called changeStarter that takes in an event
+        setStarter(e.target.value); // sets the starter state variable to the value of the event
     };
     
-    const changeCombo = (e) => {
-        if (e.target.checked === true) {
-            setCombo(true);
-        } else {
-            setCombo(false);
+    const changeCombo = (e) => { // creates a function called changeCombo that takes in an event
+        if (e.target.checked === true) { // if the event target is checked
+            setCombo(true); // set the combo state variable to true
+        } else {    // otherwise
+            setCombo(false); // set the combo state variable to false
         }
     };
 
-    const submitOrder = () => {
-        let orders = null;
-        if (base !== '' && starter === '') {
-            orders = {
+    const submitOrder = () => { // creates a function called submitOrder
+        let orders = null;  // creates a variable called orders
+        if (base !== '' && starter === '') {    // if the base state variable is not empty and the starter state variable is empty
+            orders = {  // set the orders variable to an object
                 "employeeId": "1",
                 "items" : [
                     {
@@ -64,7 +65,7 @@ const Server = () => {
                     },
                 ]
             };
-        } else if (base === '' && starter !== '') {
+        } else if (base === '' && starter !== '') {     // if the base state variable is empty and the starter state variable is not empty
             orders = {
                 "employeeId": "1",
                 "items" : [
@@ -76,7 +77,7 @@ const Server = () => {
                     },
                 ]
             };
-        } else if (base !== '' && starter !== '') {
+        } else if (base !== '' && starter !== '') {     // if the base state variable is not empty and the starter state variable is not empty
             orders = {
                 "employeeId": "1",
                 "items" : [
@@ -95,7 +96,7 @@ const Server = () => {
                 ]
             };
         }
-        console.log(orders);
+        console.log(orders); 
         addOrder(orders);
         setBase(null);
         setProtein(null);
@@ -103,13 +104,13 @@ const Server = () => {
         setCombo(false);
     };
 
-    const createCartItems = () => {
+    const createCartItems = () => {     // creates a function called createCartItems
         let baseItem = null;
         let proteinItem = null;
         let starterItem = null;
         let comboText = null;
 
-        if (base !== "" && base !== null) {
+        if (base !== "" && base !== null) {     // if the base state variable is not empty and the base state variable is not null
             baseItem = (
                 <Card
                     sx = {{
@@ -128,7 +129,7 @@ const Server = () => {
                 </Card>
             );
         }
-        if (protein !== "" && protein !== null) {
+        if (protein !== "" && protein !== null) {       // if the protein state variable is not empty and the protein state variable is not null
             proteinItem = (
                 <Card
                     sx = {{
@@ -147,7 +148,7 @@ const Server = () => {
                 </Card>
             );
         }
-        if (starter !== "" && starter !== null) {
+        if (starter !== "" && starter !== null) {       // if the starter state variable is not empty and the starter state variable is not null
             starterItem = (
                 <Card
                     sx = {{
@@ -166,8 +167,10 @@ const Server = () => {
                 </Card>
             );
         }
-        if (combo === true) {
-            comboText = <label>+ Combo</label>
+        if (combo === true) {       // if the combo state variable is true
+            comboText = <div className='combo-text' >
+            <label> + Combo</label>
+        </div>
         }
 
         return (
@@ -180,7 +183,7 @@ const Server = () => {
         );
     };
 
-    let cartItems = createCartItems();
+    let cartItems = createCartItems();      // creates a variable called cartItems that is the result of calling the createCartItems function
 
     return (
         <div className='server' >
@@ -188,56 +191,57 @@ const Server = () => {
                 <label className='server-panel-label' >Server</label>
                 <div className='meal-options' >
                     <div className='bases-meal-option' >
-                        <FormControl>
-                            <FormLabel id="bases-controlled-radio-buttons-group">Bases</FormLabel>
-                            <RadioGroup
+                        <FormControl >
+                            <FormLabel id="bases-controlled-radio-buttons-group"><h2><b>Bases</b></h2></FormLabel>
+                            <RadioGroup 
                                 aria-labelledby="bases-controlled-radio-buttons-group"
                                 name="bases-controlled-radio-buttons-group"
                                 value={base === '' ? null : base}
                                 onChange={changeBase}
                             >
-                                <FormControlLabel value="Grain Bowl" control={<Radio />} label="Grain Bowl" />
-                                <FormControlLabel value="Salad" control={<Radio />} label="Salad" />
-                                <FormControlLabel value="Pita" control={<Radio />} label="Pita" />
-                                <FormControlLabel value="Greens and Grains" control={<Radio />} label="Greens and Grains" />
+                                <FormControlLabel value="Grain Bowl" control={<Radio size="large" />} label="Grain Bowl" />
+                                <FormControlLabel value="Salad" control={<Radio size="large" />} label="Salad" />
+                                <FormControlLabel value="Pita" control={<Radio size="large" />} label="Pita" />
+                                <FormControlLabel value="Greens and Grains" control={<Radio size="large" />} label="Greens and Grains" />
                             </RadioGroup>
                         </FormControl>
                     </div>
                     <div className='proteins-meal-option' >
                         <FormControl>
-                            <FormLabel id="proteins-controlled-radio-buttons-group">Proteins</FormLabel>
+                            <FormLabel id="proteins-controlled-radio-buttons-group"><h2><b>Protien</b></h2></FormLabel>
                             <RadioGroup
                                 aria-labelledby="proteins-controlled-radio-buttons-group"
                                 name="proteins-controlled-radio-buttons-group"
                                 value={protein === '' ? null : protein}
                                 onChange={changeProtein}
                             >
-                                <FormControlLabel value="Gyro" control={<Radio />} label="Gyro" />
-                                <FormControlLabel value="Falafel" control={<Radio />} label="Falafel" />
-                                <FormControlLabel value="Vegetable Medley" control={<Radio />} label="Vegetable Medley" />
-                                <FormControlLabel value="Meatballs" control={<Radio />} label="Meatballs" />
+                                <FormControlLabel value="Gyro" control={<Radio size="large"/>} label="Gyro" />
+                                <FormControlLabel value="Falafel" control={<Radio size="large" />} label="Falafel" />
+                                <FormControlLabel value="Vegetable Medley" control={<Radio size="large"  />} label="Vegetable Medley" />
+                                <FormControlLabel value="Meatballs" control={<Radio size="large"  />} label="Meatballs" />
                             </RadioGroup>
                         </FormControl>
                     </div>
                     <div className='starters-meal-option' >
                         <FormControl>
-                            <FormLabel id="starters-controlled-radio-buttons-group">Starters</FormLabel>
+                            <FormLabel id="starters-controlled-radio-buttons-group"> <h2><b>Starters</b></h2></FormLabel>
                             <RadioGroup
                                 aria-labelledby="starters-controlled-radio-buttons-group"
                                 name="starters-controlled-radio-buttons-group"
                                 value={starter === '' ? null : starter}
                                 onChange={changeStarter}
-                            >
-                                <FormControlLabel value="2 Falafels" control={<Radio />} label="2 Falafels" />
-                                <FormControlLabel value="Hummus & Pita" control={<Radio />} label="Hummus & Pita" />
-                                <FormControlLabel value="Vegan Box" control={<Radio />} label="Vegan Box" />
-                                <FormControlLabel value="Garlic Fries" control={<Radio />} label="Garlic Fries" />
+                            > 
+                            {/* label={<Typography variant="body2" color="textSecondary">2 Falafels</Typography>} */}
+                                <FormControlLabel value="2 Falafels" control={<Radio size="large"  />}  label = "2 Falafals" />
+                                <FormControlLabel value="Hummus & Pita" control={<Radio size="large"  />} label="Hummus & Pita" />
+                                <FormControlLabel value="Vegan Box" control={<Radio size="large"  />} label="Vegan Box" />
+                                <FormControlLabel value="Garlic Fries" control={<Radio size="large"  />} label="Garlic Fries" />
                             </RadioGroup>
                         </FormControl>
                     </div>
                 </div>
                 <div className='combo-box' >
-                    <FormControlLabel control={<Checkbox checked={combo} onClick={changeCombo} />} label='Combo' />
+                    <FormControlLabel control={<Checkbox  size="large"  checked={combo} onClick={changeCombo} />} label='Combo' />
                 </div>
             </div>
             <div className='cart-area' >
